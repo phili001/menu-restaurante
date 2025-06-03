@@ -6,9 +6,19 @@
   <style>
     body { font-family: Arial; padding: 20px; background: #fff6f6; }
     h1 { color: #e63946; }
-    .producto { margin: 10px 0; }
-    input[type="number"] { width: 50px; margin-left: 10px; }
-    button { margin-top: 20px; padding: 10px; background: #e63946; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    .producto, .info { margin: 10px 0; }
+    input[type="number"], input[type="text"], input[type="tel"] {
+      width: 200px; margin-left: 10px; padding: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #e63946;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -29,22 +39,46 @@
       Producto 4 ($15.000) <input type="number" name="producto4" value="0" min="0">
     </div>
 
+    <div class="info">
+      Nombre del Usuario <input type="text" name="usuario" required>
+    </div>
+    <div class="info">
+      Número de Teléfono <input type="tel" name="numero" required>
+    </div>
+    <div class="info">
+      Dirección <input type="text" name="direccion" required>
+    </div>
+
     <button type="submit">Confirmar Pedido ✅</button>
   </form>
 
   <script>
+    const params = new URLSearchParams(window.location.search);
+    const chatId = params.get("chat_id");
+
     document.getElementById('pedidoForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      const data = Object.fromEntries(new FormData(this).entries());
 
-      await fetch("https://socialdigitalfactory.app.n8n.cloud/webhook-test/pedido", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData.entries());
 
-      alert("✅ ¡Pedido enviado con éxito!");
-      this.reset();
+      // Agregar chat_id y número de pedido
+      data.chat_id = chatId;
+      data.numero_pedido = Math.floor(100000 + Math.random() * 900000); // entre 100000 y 999999
+
+      try {
+        await fetch("https://socialdigitalfactory.app.n8n.cloud/webhook-test/pedido", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        alert(`✅ ¡Pedido enviado con éxito!\nTu número de pedido es: ${data.numero_pedido}`);
+        this.reset();
+      } catch (err) {
+        alert("❌ Error al enviar el pedido. Intenta de nuevo.");
+        console.error(err);
+      }
     });
   </script>
 </body>
