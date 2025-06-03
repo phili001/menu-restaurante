@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario de Pedido</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #fff6f6; }
+    h1 { color: #e63946; }
+    .producto { margin: 10px 0; }
+    input[type="number"] { width: 50px; margin-left: 10px; }
+    button { margin-top: 20px; padding: 10px; background: #e63946; color: white; border: none; border-radius: 5px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <h1>🛒 Menú del Restaurante</h1>
+
+  <form id="pedidoForm">
+    <div class="producto">
+      Producto 1 ($15.000) <input type="number" name="producto1" value="0" min="0">
+    </div>
+    <div class="producto">
+      Producto 2 ($25.000) <input type="number" name="producto2" value="0" min="0">
+    </div>
+    <div class="producto">
+      Producto 3 ($35.000) <input type="number" name="producto3" value="0" min="0">
+    </div>
+    <div class="producto">
+      Producto 4 ($15.000) <input type="number" name="producto4" value="0" min="0">
+    </div>
+
+    <button type="submit">Confirmar Pedido ✅</button>
+  </form>
+
+  <script>
+    document.getElementById('pedidoForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(this).entries());
+
+      await fetch("https://TU-WEBHOOK.n8n.cloud/webhook-principal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      alert("✅ ¡Pedido enviado con éxito!");
+      this.reset();
+    });
+  </script>
+</body>
+</html>
