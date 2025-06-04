@@ -1,89 +1,221 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Formulario de Pedido</title>
-  <style>
-    body { font-family: Arial; padding: 20px; background: #fff6f6; }
-    h1 { color: #e63946; }
-    .producto, .info { margin: 10px 0; }
-    input[type="number"], input[type="text"], input[type="tel"] {
-      width: 200px; margin-left: 10px; padding: 5px;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: #e63946;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Formulario de Pedido</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #fdf0f0; color: #333; }
+        h1 { color: #e63946; text-align: center; margin-bottom: 30px; }
+        .producto {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .producto-nombre {
+            flex-grow: 1;
+            font-size: 1.1em;
+            color: #555;
+        }
+        .cantidad-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .cantidad-control button {
+            background-color: #e63946;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 1.2em;
+            line-height: 1;
+            transition: background-color 0.2s ease;
+        }
+        .cantidad-control button:hover {
+            background-color: #c0303b;
+        }
+        .cantidad-control button:active {
+            background-color: #a12832;
+        }
+        .cantidad-control input[type="number"] {
+            width: 50px;
+            text-align: center;
+            border: none;
+            padding: 8px 0;
+            -moz-appearance: textfield; /* Para Firefox */
+            font-size: 1em;
+            color: #333;
+        }
+        .cantidad-control input[type="number"]::-webkit-outer-spin-button,
+        .cantidad-control input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .info {
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+        .info label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"], input[type="tel"] {
+            width: calc(100% - 22px); /* Ajuste para padding */
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box; /* Incluye padding y border en el ancho */
+            font-size: 1em;
+        }
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            margin-top: 30px;
+            padding: 12px 20px;
+            background: #e63946;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.2s ease;
+        }
+        button[type="submit"]:hover {
+            background: #c0303b;
+        }
+    </style>
 </head>
 <body>
 
-  <h1>🛒 Menú del Restaurante</h1>
+    <h1>🛒 Menú del Restaurante</h1>
 
-  <form id="pedidoForm">
-    <div class="producto">
-      Producto 1 ($15.000) <input type="number" name="producto1" value="0" min="0">
-    </div>
-    <div class="producto">
-      Producto 2 ($25.000) <input type="number" name="producto2" value="0" min="0">
-    </div>
-    <div class="producto">
-      Producto 3 ($35.000) <input type="number" name="producto3" value="0" min="0">
-    </div>
-    <div class="producto">
-      Producto 4 ($15.000) <input type="number" name="producto4" value="0" min="0">
-    </div>
+    <form id="pedidoForm">
+        <div class="producto">
+            <span class="producto-nombre">Producto 1 ($15.000)</span>
+            <div class="cantidad-control">
+                <button type="button" class="minus" data-target="producto1">-</button>
+                <input type="number" name="producto1" value="0" min="0" readonly>
+                <button type="button" class="plus" data-target="producto1">+</button>
+            </div>
+        </div>
+        <div class="producto">
+            <span class="producto-nombre">Producto 2 ($25.000)</span>
+            <div class="cantidad-control">
+                <button type="button" class="minus" data-target="producto2">-</button>
+                <input type="number" name="producto2" value="0" min="0" readonly>
+                <button type="button" class="plus" data-target="producto2">+</button>
+            </div>
+        </div>
+        <div class="producto">
+            <span class="producto-nombre">Producto 3 ($35.000)</span>
+            <div class="cantidad-control">
+                <button type="button" class="minus" data-target="producto3">-</button>
+                <input type="number" name="producto3" value="0" min="0" readonly>
+                <button type="button" class="plus" data-target="producto3">+</button>
+            </div>
+        </div>
+        <div class="producto">
+            <span class="producto-nombre">Producto 4 ($15.000)</span>
+            <div class="cantidad-control">
+                <button type="button" class="minus" data-target="producto4">-</button>
+                <input type="number" name="producto4" value="0" min="0" readonly>
+                <button type="button" class="plus" data-target="producto4">+</button>
+            </div>
+        </div>
 
-    <div class="info">
-      Nombre del Usuario <input type="text" name="usuario" required>
-    </div>
-    <div class="info">
-      Número de Teléfono <input type="tel" name="numero" required>
-    </div>
-    <div class="info">
-      Dirección <input type="text" name="direccion" required>
-    </div>
+        <div class="info">
+            <label for="usuario">Nombre del Usuario</label>
+            <input type="text" name="usuario" id="usuario" required>
+        </div>
+        <div class="info">
+            <label for="numero">Número de Teléfono</label>
+            <input type="tel" name="numero" id="numero" required>
+        </div>
+        <div class="info">
+            <label for="direccion">Dirección</label>
+            <input type="text" name="direccion" id="direccion" required>
+        </div>
 
-    <button type="submit">Confirmar Pedido ✅</button>
-  </form>
+        <button type="submit">Confirmar Pedido ✅</button>
+    </form>
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const chatId = params.get("chatid");
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const chatId = params.get("chatid");
 
-    if (!chatId) {
-      alert("⚠️ No se detectó tu chat de Telegram. Asegúrate de usar el enlace del bot.");
-    }
+        if (!chatId) {
+            alert("⚠️ No se detectó tu chat de Telegram. Asegúrate de usar el enlace del bot.");
+        }
 
-    document.getElementById('pedidoForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
+        // Manejar los botones de cantidad
+        document.querySelectorAll('.cantidad-control button').forEach(button => {
+            button.addEventListener('click', function() {
+                const targetInputName = this.dataset.target;
+                const inputElement = document.querySelector(`input[name="${targetInputName}"]`);
+                let currentValue = parseInt(inputElement.value);
 
-      const formData = new FormData(this);
-      const data = Object.fromEntries(formData.entries());
-
-      // Agrega chat_id y número de pedido
-      data.chat_id = chatId;
-      data.numero_pedido = Math.floor(100000 + Math.random() * 900000);
-
-      try {
-        await fetch("https://socialdigitalfactory.app.n8n.cloud/webhook-test/pedido", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
+                if (this.classList.contains('plus')) {
+                    inputElement.value = currentValue + 1;
+                } else if (this.classList.contains('minus')) {
+                    if (currentValue > 0) {
+                        inputElement.value = currentValue - 1;
+                    }
+                }
+            });
         });
 
-        alert(`✅ ¡Pedido enviado con éxito!\nTu número de pedido es: ${data.numero_pedido}`);
-        this.reset();
-      } catch (err) {
-        alert("❌ Error al enviar el pedido. Intenta de nuevo.");
-        console.error(err);
-      }
-    });
-  </script>
+        document.getElementById('pedidoForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            // Filtra productos con cantidad 0
+            for (const key in data) {
+                if (key.startsWith('producto') && parseInt(data[key]) === 0) {
+                    delete data[key];
+                }
+            }
+
+            // Agrega chat_id y número de pedido
+            data.chat_id = chatId;
+            data.numero_pedido = Math.floor(100000 + Math.random() * 900000);
+
+            // Verifica si hay al menos un producto seleccionado
+            const hasProducts = Object.keys(data).some(key => key.startsWith('producto') && parseInt(data[key]) > 0);
+            if (!hasProducts) {
+                alert("Por favor, selecciona al menos un producto antes de confirmar el pedido.");
+                return;
+            }
+
+            try {
+                await fetch("https://socialdigitalfactory.app.n8n.cloud/webhook-test/pedido", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+
+                alert(`✅ ¡Pedido enviado con éxito!\nTu número de pedido es: ${data.numero_pedido}`);
+                this.reset();
+                // Resetear las cantidades de los productos después de enviar
+                document.querySelectorAll('.cantidad-control input[type="number"]').forEach(input => {
+                    input.value = 0;
+                });
+            } catch (err) {
+                alert("❌ Error al enviar el pedido. Intenta de nuevo.");
+                console.error(err);
+            }
+        });
+    </script>
 </body>
 </html>
